@@ -3,3 +3,4 @@ python-dotenv
 langchain_google_genai
 google-auth
 google-generativeai
+mailchimp-marketing
