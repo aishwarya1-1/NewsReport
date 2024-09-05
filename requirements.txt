@@ -1,0 +1,7 @@
+crewai
+python-dotenv
+langchain_google_genai
+smtplib
+email
+google-auth
+google-generativeai
