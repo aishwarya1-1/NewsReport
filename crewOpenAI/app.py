@@ -16,7 +16,7 @@ client.set_config({
 
 # Streamlit UI
 st.title("Karnataka News Subscription")
-NEWS_FILE = "new-blog-post.md"
+NEWS_FILE = "crewOpenAI/new-blog-post.md"
 
 def load_news():
     if os.path.exists(NEWS_FILE):
