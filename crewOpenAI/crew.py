@@ -15,16 +15,7 @@ crew=Crew(
 
 result=crew.kickoff()
 print(result)
-# NEWS_FILE = "new-blog-post.md"
-#
-# def load_news():
-#     if os.path.exists(NEWS_FILE):
-#         with open(NEWS_FILE, "r") as file:
-#             return file.read()
-#     else:
-#         return "No news available."
-#
-# result = load_news()
+
 
 md_content = str(result)  # Assuming the result is in Markdown format
 html_content = markdown.markdown(md_content)
