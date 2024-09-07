@@ -13,8 +13,14 @@ crew=Crew(
 
 #starting the task execution process with enhanced feedback
 
-result=crew.kickoff()
-print(result)
+try:
+    # Attempt to run the task execution process
+    result = crew.kickoff()
+    print(result)
+except Exception as e:
+    # Catch any other exception that might occur
+    print("An unexpected error occurred:", e)
+    exit(1)
 
 
 md_content = str(result)  # Assuming the result is in Markdown format
