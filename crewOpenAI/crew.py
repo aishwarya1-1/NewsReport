@@ -1,7 +1,7 @@
 from crewai import Crew,Process
 from tasks import research_task,writer_task
 from agents import news_researcher,news_writer
-
+import time
 import markdown
 import requests
 import os
@@ -13,15 +13,38 @@ crew=Crew(
 
 #starting the task execution process with enhanced feedback
 
-try:
-    # Attempt to run the task execution process
-    result = crew.kickoff()
-    print(result)
-except Exception as e:
-    # Catch any other exception that might occur
-    print("An unexpected error occurred:", e)
+# try:
+#     # Attempt to run the task execution process
+#     result = crew.kickoff()
+#     print(result)
+# except Exception as e:
+#     # Catch any other exception that might occur
+#     print("An unexpected error occurred:", e)
+#     exit(1)
+def execute_with_retry(crew, max_retries=3, delay_seconds=10):
+    retries = 0
+    while retries < max_retries:
+        try:
+            # Attempt to run the task execution process
+            task_result = crew.kickoff()
+            print(task_result)
+            return task_result  # Return result if successful
+        except Exception as e:
+            # Catch any exception that might occur
+            print(f"Attempt {retries + 1} failed with error: {e}")
+            if "Resource has been exhausted" in str(e):
+                print("Resource exhaustion detected. Retrying after a delay...")
+                time.sleep(delay_seconds)  # Wait for a specified delay before retrying
+                retries += 1
+            else:
+                # If it's a different error, print and exit
+                print("An unexpected error occurred:", e)
+                exit(1)
+    print("Maximum retries reached. Exiting.")
     exit(1)
 
+# Starting the task execution process with enhanced feedback and retry mechanism
+result=execute_with_retry(crew, max_retries=3, delay_seconds=10)
 
 md_content = str(result)  # Assuming the result is in Markdown format
 html_content = markdown.markdown(md_content)
