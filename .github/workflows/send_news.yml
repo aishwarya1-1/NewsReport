@@ -20,6 +20,16 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install --no-deps crewai==0.41.1
+        pip install --no-deps crewai-tools==0.4.26
+        pip install langchain==0.2.4
+        pip install chromadb==0.4.22
+        pip install python-dotenv==1.0.0
+        pip install langchain_google_genai==0.0.10
+        pip install google-auth==2.27.0
+        pip install google-generativeai==0.3.2
+        pip install mailchimp-marketing==3.5.2
+        pip install markdown==3.5.2
         pip install -r requirements.txt
 
     - name: Run script
