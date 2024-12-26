@@ -23,6 +23,7 @@ jobs:
         pip install chromadb==0.4.24
         pip install langchain-core==0.3.15
         pip install langchain==0.3.0
+        pip install langchain-openai==0.0.2
         pip install --no-deps crewai==0.41.1
         pip install --no-deps crewai-tools==0.4.26
         pip install python-dotenv==1.0.0
