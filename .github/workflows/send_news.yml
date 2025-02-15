@@ -40,6 +40,8 @@ jobs:
         pip install "mailchimp-marketing>=3.0.80"
         pip install "markdown>=3.5.2"
         pip install "requests>=2.31.0"
+        # Install docker package
+        pip install "docker>=6.1.2"
         
     - name: Print Versions
       run: |
