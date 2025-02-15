@@ -7,7 +7,7 @@ import os
 from tools import tool
 
 
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = os.getenv("GOOGLE_API_KEY")
 
 if api_key:
     print(f"GEMINI_API_KEY Loaded: {'*' * (len(api_key) - 4)}{api_key[-4:]}")
@@ -15,7 +15,7 @@ else:
     print("GEMINI_API_KEY is not set!")
 
 my_llm = LLM(
-    api_key=os.getenv("GEMINI_API_KEY"),
+    api_key=os.getenv("GOOGLE_API_KEY"),
     model="gemini/gemini-1.5-flash",
 )
 #CREATING A SENIOR RESEARCHER AGENT
