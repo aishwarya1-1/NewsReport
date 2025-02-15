@@ -19,12 +19,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # First install pydantic v1 explicitly
-        pip install "pydantic<2.0.0"
+        # Install pydantic v2 first
+        pip install "pydantic>=2.0.0"
+        # Install older version of langchain that's compatible with crewai
+        pip install "langchain==0.1.12"
+        pip install "langchain-core==0.1.12"
         # Then install other dependencies
         pip install chromadb==0.4.24
-        pip install langchain-core==0.3.15
-        pip install langchain==0.3.0
         pip install langchain-openai==0.0.2
         pip install embedchain==0.1.122
         pip install --no-deps crewai==0.41.1
