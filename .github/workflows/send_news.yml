@@ -19,28 +19,31 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # Install base dependencies first
-        pip install "pydantic>=1.10.13,<2.0.0"
-        pip install "typing-inspect==0.8.0"
-        pip install "typing_extensions==4.5.0"
-        # Install langchain ecosystem
-        pip install "langchain==0.0.352"
-        pip install "langchain-core==0.0.10"
-        pip install "langchain-community==0.0.10"
-        # Install CrewAI and related
-        pip install "crewai==0.1.32"
-        pip install --no-deps "crewai-tools==0.4.26"
-        # Install other dependencies
-        pip install "chromadb==0.4.24"
-        pip install "langchain-openai==0.0.2"
-        pip install "embedchain==0.1.122"
-        pip install "python-dotenv==1.0.0"
-        pip install "google-generativeai==0.8.1"
-        pip install "langchain_google_genai==2.0.7"
-        pip install "google-auth==2.27.0"
-        pip install "mailchimp-marketing==3.0.80"
-        pip install "markdown==3.5.2"
+        # First install core dependencies
+        pip install "pydantic>=2.6.1"
+        pip install "typing-extensions>=4.5.0"
+        # Install latest LangChain packages
+        pip install "langchain>=0.1.4"
+        pip install "langchain-core>=0.1.17"
+        pip install "langchain-community>=0.0.16"
+        # Install Google AI and CrewAI
+        pip install "google-generativeai>=0.3.2"
+        pip install "langchain-google-genai>=0.0.9"
+        pip install "crewai==0.102.0"
+        # Other dependencies
+        pip install "python-dotenv>=1.0.0"
+        pip install "chromadb>=0.4.24"
+        pip install "langchain-openai>=0.0.2"
+        pip install "embedchain>=0.1.122"
+        pip install --no-deps "crewai-tools>=0.4.26"
+        pip install "google-auth>=2.27.0"
+        pip install "mailchimp-marketing>=3.0.80"
+        pip install "markdown>=3.5.2"
         pip install "requests>=2.31.0"
+        
+    - name: Print Versions
+      run: |
+        pip freeze
         
     - name: Run script
       env:
