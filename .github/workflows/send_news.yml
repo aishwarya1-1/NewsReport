@@ -28,7 +28,7 @@ jobs:
         pip install "langchain-core==0.0.10"
         pip install "langchain-community==0.0.10"
         # Install CrewAI and related
-        pip install "crewai==0.1.60"
+        pip install "crewai==0.1.32"
         pip install --no-deps "crewai-tools==0.4.26"
         # Install other dependencies
         pip install "chromadb==0.4.24"
