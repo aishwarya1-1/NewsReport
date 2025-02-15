@@ -1,17 +1,16 @@
 #agents.py
-from crewai import Agent
+from crewai import Agent, LLM
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
+
 load_dotenv()
 import os
 from tools import tool
 
-llm=ChatGoogleGenerativeAI(model="gemini/gemini-1.5-flash",
-                           verbose=True,
-                           temperature =0.5,
-                           google_api_key=os.getenv("GOOGLE_API_KEY"),
 
-                           )
+my_llm = LLM(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    model="gemini/gemini-1.5-flash",
+),
 #CREATING A SENIOR RESEARCHER AGENT
 
 news_researcher=Agent(
@@ -29,7 +28,7 @@ news_researcher=Agent(
     max_iter=180,
     max_execution_time= 250,
     tools=[tool],
-    llm=llm,
+    llm=my_llm,
     allow_delegation=True
 
 )
@@ -47,7 +46,7 @@ news_writer=Agent(
         "for storytelling continue to drive Karnataka's mission of keeping the community informed and engaged."
     ),
     tools=[tool],
-    llm=llm,
+    llm=my_llm,
     max_iter=180,
     max_execution_time= 250,
     allow_delegation=False
