@@ -52,7 +52,7 @@ html_content = markdown.markdown(md_content)
 # Mailchimp configuration
 API_KEY = os.getenv('MAILCHIMP_API_KEY')
 SERVER_PREFIX = os.getenv('MAILCHIMP_SERVER_PREFIX')
-LIST_ID = os.getenv('MAILCHIMP_LIST_ID')
+LIST_ID = os.getenv('LIST_ID')
 campaign_url = f'https://{SERVER_PREFIX}.api.mailchimp.com/3.0/campaigns'
 campaign_data = {
     "type": "regular",
