@@ -90,3 +90,10 @@ if response.status_code == 204:
     print("Campaign sent successfully!")
 else:
     print("Failed to send campaign:", response.json())
+
+file_path = "crewOpenAI/new-blog-post.md"
+
+if not os.path.exists(file_path):
+    print(f"Error: {file_path} does not exist after script execution.")
+else:
+    print(f"Success: {file_path} exists.")
