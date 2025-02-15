@@ -6,11 +6,11 @@ load_dotenv()
 import os
 from tools import tool
 
-llm=ChatGoogleGenerativeAI(model="gemini-1.5-flash",
+llm=ChatGoogleGenerativeAI(model="gemini/gemini-1.5-flash",
                            verbose=True,
                            temperature =0.5,
                            google_api_key=os.getenv("GOOGLE_API_KEY"),
-                           provider="google"
+
                            )
 #CREATING A SENIOR RESEARCHER AGENT
 
