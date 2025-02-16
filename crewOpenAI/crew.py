@@ -104,7 +104,7 @@ campaign_data = {
         "list_id": LIST_ID
     },
     "settings": {
-        "subject_line": "Daily News Summary",
+        "subject_line": "Daily Karnataka News Summary",
         "from_name": "Aishwarya",
         "reply_to": "aishwaryakalburgi560@gmail.com"
     }
