@@ -1,4 +1,5 @@
 name: Send News Summary
+
 on:
   schedule:
     - cron: '0 9 * * *'  # Runs at 9 AM UTC every day
@@ -8,62 +9,56 @@ jobs:
   send-news:
     runs-on: ubuntu-22.04
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        # First install core dependencies
-        pip install "pydantic>=2.6.1"
-        pip install "typing-extensions>=4.5.0"
-        # Install latest LangChain packages
-        pip install "langchain>=0.1.4"
-        pip install "langchain-core>=0.1.17"
-        pip install "langchain-community>=0.0.16"
-        # Install Google AI and CrewAI
-        pip install "google-generativeai>=0.3.2"
-        pip install "langchain-google-genai>=0.0.9"
-        pip install "crewai==0.102.0"
-        # Other dependencies
-        pip install "python-dotenv>=1.0.0"
-        pip install "chromadb>=0.4.24"
-        pip install "langchain-openai>=0.0.2"
-        pip install "embedchain>=0.1.122"
-        pip install --no-deps "crewai-tools>=0.4.26"
-        pip install "google-auth>=2.27.0"
-        pip install "mailchimp-marketing>=3.0.80"
-        pip install "markdown>=3.5.2"
-        pip install "requests>=2.31.0"
-        # Install docker package
-        pip install "docker>=6.1.2"
-        
-    - name: Print Versions
-      run: |
-        pip freeze
-        
-    - name: Run script
-      env:
-        MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
-        MAILCHIMP_SERVER_PREFIX: ${{ secrets.MAILCHIMP_SERVER_PREFIX }}
-        LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
-        SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
-        GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-      run: |
-        cd crewOpenAI
-        python crew.py
-        
-    - name: Commit changes
-      run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'actions@github.com'
-        git add crewOpenAI/new-blog-post.md
-        git commit -m 'Update news content'
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Create and install requirements
+        run: |
+          python -m pip install --upgrade pip
+
+          # Create requirements.txt with minimal dependencies
+          cat > requirements.txt << EOL
+          crewai==0.102.0
+          crewai-tools>=0.4.26
+          streamlit
+          mailchimp-marketing>=3.0.80
+          python-dotenv>=1.0.0
+          markdown>=3.5.2
+          requests>=2.31.0
+          EOL
+
+          pip install -r requirements.txt
+
+      - name: Run script
+        env:
+          MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          MAILCHIMP_SERVER_PREFIX: ${{ secrets.MAILCHIMP_SERVER_PREFIX }}
+          LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          cd crewOpenAI
+          python crew.py
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'actions@github.com'
+          git add crewOpenAI/new-blog-post.md
+          git commit -m 'Update news content'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
