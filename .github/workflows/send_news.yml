@@ -2,7 +2,7 @@ name: Send News Summary
 
 on:
   schedule:
-    - cron: '0 9 * * *'  # Runs at 9 AM UTC every day
+    - cron: '30 3 * * *'
   workflow_dispatch:
 
 jobs:
