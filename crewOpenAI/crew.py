@@ -3,8 +3,46 @@ from tasks import research_task,writer_task
 from agents import news_researcher,news_writer
 import time
 import markdown
+from bs4 import BeautifulSoup
 import requests
 import os
+
+
+def convert_markdown_to_html(markdown_content):
+    """
+    Convert markdown content to HTML with proper numbering for news headlines
+
+    Args:
+        markdown_content (str): The markdown formatted content
+
+    Returns:
+        str: Properly formatted HTML content
+    """
+    # First convert markdown to HTML
+    html_content = markdown.markdown(markdown_content)
+
+    # Parse the HTML
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    # Find all strong tags that contain numbered headlines
+    headlines = soup.find_all('strong')
+
+    # Counter for headlines
+    headline_counter = 1
+
+    for headline in headlines:
+        # Check if this is a main headline (contains a number)
+        text = headline.get_text()
+        if text.strip().startswith(str(headline_counter) + '.'):
+            # Replace with properly numbered headline
+            new_text = f"{headline_counter}. {text.split('.', 1)[1].strip()}"
+            headline.string = new_text
+            headline_counter += 1
+
+    # Convert back to string
+    return str(soup)
+
+
 crew=Crew(
     agents=[news_researcher,news_writer],
     tasks=[research_task,writer_task],
@@ -16,8 +54,14 @@ crew=Crew(
 # try:
 #     # Attempt to run the task execution process
 #     result = crew.kickoff()
+#     print('raw result is')
 #     print(result)
+#     md_content = str(result)  # Assuming the result is in Markdown format
+#     html_content = convert_markdown_to_html(md_content)
+#     print('html contenet is')
+#     print(html_content)
 # except Exception as e:
+#
 #     # Catch any other exception that might occur
 #     print("An unexpected error occurred:", e)
 #     exit(1)
@@ -47,7 +91,7 @@ def execute_with_retry(crew, max_retries=3, delay_seconds=10):
 result=execute_with_retry(crew, max_retries=3, delay_seconds=10)
 
 md_content = str(result)  # Assuming the result is in Markdown format
-html_content = markdown.markdown(md_content)
+html_content = convert_markdown_to_html(md_content)
 
 # Mailchimp configuration
 API_KEY = os.getenv('MAILCHIMP_API_KEY')
